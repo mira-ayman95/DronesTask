@@ -7,7 +7,6 @@ export const registerDrone = Joi.object()
             .max(100)
             .required(),
         weight: Joi.number()
-            .integer()
             .min(1)
             .max(500)
             .required(),

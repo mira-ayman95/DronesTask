@@ -1,5 +1,6 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Drone, DroneModelEnum, DroneStateEnum } from '../interfaces/drone.interface';
+import { MedicationEntity } from './medication.model';
 
 @Entity({ name: 'drones' })
 export class DroneEntity extends BaseEntity implements Drone {
@@ -28,6 +29,9 @@ export class DroneEntity extends BaseEntity implements Drone {
 
     @Column({ default: 100 })
     battery: number;
+
+    @OneToMany(() => MedicationEntity, (medication) => medication.drone)
+    medications: MedicationEntity[]
 
     @Column()
     @CreateDateColumn()
