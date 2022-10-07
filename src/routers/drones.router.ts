@@ -1,7 +1,7 @@
 import { droneController } from '../controllers/drone.controller';
 import { Router } from 'express';
 import { validationMiddleware } from '../middlewares/validation.middleware';
-import { registerDrone } from '../utils/schema-validators/registerDrone';
+import { registerDrone } from '../utils/schema-validators/register-drone.validator';
 
 const router = Router();
 
