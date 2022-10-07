@@ -1,4 +1,4 @@
-class BadRequest extends Error {
+export class BadRequest extends Error {
     status = 400;
     name = "Bad Request";
 }

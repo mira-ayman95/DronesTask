@@ -11,7 +11,16 @@ class DroneController {
             const registeredDrone: Drone = await droneService.registerDrone(droneData);
             res.status(201).json({ data: registeredDrone, message: 'drone registered successfully' });
         } catch (error) {
-            res.status(400).json({ error })
+            res.status(400).json({ error, message: error.message })
+        }
+    }
+    getDrone = async (req: Request, res: Response) => {
+        try {
+            const droneId: number = parseInt(req.params.droneId);
+            const drone = await droneService.getDrone(droneId);
+            res.status(200).json({ data: drone, message: 'drone retrieved successfully' });
+        } catch (error) {
+            res.status(400).json({ error, message: error.message })
         }
     }
 }

@@ -1,5 +1,6 @@
 import { Drone } from '../interfaces/drone.interface';
 import { DroneEntity } from '../models/drone.model';
+import { BadRequest } from '../utils/exceptions/bad-request.exception';
 
 class DroneService {
 
@@ -15,6 +16,11 @@ class DroneService {
         }).save();
 
         return createdDrone;
+    }
+    async getDrone(droneId: number) {
+        const drone = await DroneEntity.findOne({ where: { id: droneId }, select: ['battery'] })
+        if (!drone) throw new BadRequest(`Drone ID not found`);
+        return drone;
     }
 }
 
