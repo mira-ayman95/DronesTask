@@ -11,5 +11,6 @@ const router = Router();
 router.post('/', validationMiddleware({ body: registerDrone }), droneController.registerDrone);
 router.get('/:droneId', validationMiddleware({ params: droneParams }), droneController.getDrone);
 router.post('/:droneId/medications', validationMiddleware({ body: loadMedication, params: droneParams }), medicationController.loadMedications);
+router.get('/:droneId/medications', validationMiddleware({ params: droneParams }), medicationController.getLoadedMedications);
 
 export default router;

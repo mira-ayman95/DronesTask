@@ -13,5 +13,15 @@ class MedicationController {
             res.status(400).json({ error, message: error.message })
         }
     }
+    getLoadedMedications = async (req: Request, res: Response) => {
+        try {
+            const droneId: number = parseInt(req.params.droneId);
+            const loadedMedication: Medication[] = await medicationService.getLoadedMedications(droneId);
+            res.status(201).json({ data: loadedMedication, message: 'Medications loaded retrieved successfully' });
+        } catch (error) {
+            console.log('error', error);
+            res.status(400).json({ error, message: error.message })
+        }
+    }
 }
 export const medicationController = new MedicationController();

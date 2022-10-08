@@ -50,6 +50,18 @@ class MedicationService {
 
         return loadedMedications;
     }
+    async getLoadedMedications(droneId: number) {
+
+        const drone = await DroneEntity.findOne({ where: { id: droneId } })
+        if (!drone) throw new BadRequest(`Drone ID not found`);
+
+        const medications = await MedicationEntity.createQueryBuilder('medications')
+            .select(`medications.*`)
+            .innerJoin("medications.drone", "drone")
+            .where(`medications.droneId = ${droneId}`)
+            .getRawMany();
+        return medications;
+    }
 }
 
 export const medicationService = new MedicationService();
