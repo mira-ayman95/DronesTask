@@ -66,7 +66,7 @@ describe('medications.service', () => {
 
             const medications = medicationService.loadMedication(3, [{ weight: 1, code: "CC2", image: "jsj", name: "jsjj" }]);
 
-            await expect(medications).rejects.toThrowError(new BadRequestException(`Drone is already Full of Medications`));
+            await expect(medications).rejects.toThrowError(new BadRequestException(`Drone reached Max weight limit`));
         });
 
         it('should fails if medications weight > drone weight', async () => {

@@ -31,7 +31,6 @@ class DroneService {
             where: {
                 state: Any(['idle', 'loading']),
                 battery: MoreThanOrEqual(25),
-                // weight: sumMedicationsWeight < weight 
             }
         });
         return drones;

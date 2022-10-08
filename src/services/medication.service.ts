@@ -20,16 +20,12 @@ class MedicationService {
 
         //drone found
         if (!drone) throw new NotFoundException(`Drone ID not found`);
-        console.log('drone.medications.id', drone.medicationsWeight);
 
         //drone cant load because of battery below 25  
-        if (drone.battery < 25) {
-            if (drone.state !== DroneStateEnum.IDLE) DroneEntity.update({ id: droneId }, { state: DroneStateEnum.IDLE })
-            throw new BadRequestException(`Can't load Medications, Drone battery is ${drone.battery}%`)
-        };
+        if (drone.battery < 25) throw new BadRequestException(`Can't load Medications, Drone battery is ${drone.battery}%`)
 
         //drone already loaded or fully loaded by status or weights
-        if (drone.state === DroneStateEnum.LOADED || (drone.medicationsWeight == Number(drone.weight))) throw new BadRequestException(`Drone is already Full of Medications`);
+        if (drone.state === DroneStateEnum.LOADED || (drone.medicationsWeight == Number(drone.weight))) throw new BadRequestException(`Drone reached Max weight limit`);
 
         // drone medications coming more than drone weight limit
         drone.medicationsWeight = Number(drone.medicationsWeight)
