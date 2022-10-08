@@ -23,5 +23,14 @@ class DroneController {
             res.status(400).json({ error, message: error.message })
         }
     }
+    getDrones = async (req: Request, res: Response) => {
+        try {
+            const filterQuery = req.query;
+            const availableLoadingDrones: Drone[] = await droneService.getDrones(filterQuery);
+            res.status(200).json({ data: availableLoadingDrones, message: 'available drones for loading retrieved successfully' });
+        } catch (error) {
+            res.status(400).json({ error, message: error.message })
+        }
+    }
 }
 export const droneController = new DroneController();

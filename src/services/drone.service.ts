@@ -1,5 +1,6 @@
 import { Drone } from '../interfaces/drone.interface';
 import { DroneEntity } from '../models/drone.model';
+import { Any, MoreThanOrEqual } from "typeorm"
 import { BadRequest } from '../utils/exceptions/bad-request.exception';
 
 class DroneService {
@@ -21,6 +22,16 @@ class DroneService {
         const drone = await DroneEntity.findOne({ where: { id: droneId }, select: ['battery'] })
         if (!drone) throw new BadRequest(`Drone ID not found`);
         return drone;
+    }
+    async getDrones(filter) {
+        const drones: Drone[] = await DroneEntity.find({
+            where: {
+                state: Any(['idle', 'loading']),
+                battery: MoreThanOrEqual(25),
+                // weight: sumMedicationsWeight < weight 
+            }
+        });
+        return drones;
     }
 }
 
