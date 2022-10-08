@@ -2,8 +2,8 @@ export interface Drone {
     serialNum: string;
     model: DroneModelEnum;
     weight: number;
-    battery: number;
-    state: DroneStateEnum;
+    battery?: number;
+    state?: DroneStateEnum;
 }
 
 export enum DroneStateEnum {

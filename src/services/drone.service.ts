@@ -19,6 +19,7 @@ class DroneService {
 
         return createdDrone;
     }
+
     async getDrone(droneId: number) {
         const drone = await DroneEntity.findOne({ where: { id: droneId }, select: ['battery'] })
         if (!drone) throw new NotFoundException(`Drone ID not found`);
