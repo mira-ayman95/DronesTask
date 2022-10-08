@@ -10,12 +10,14 @@ import DroneRouter from "./routers/drones.router";
 import fileUpload from "express-fileupload"
 import * as fs from "fs/promises"
 import { GlobalError } from "./interfaces/exceptions.interface";
+import helmet from "helmet";
 
 
 createConnection(dbConnection);
 
 const app = express();
 
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

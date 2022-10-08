@@ -32,8 +32,9 @@ class MedicationService {
         if (drone.state === DroneStateEnum.LOADED || (drone.medicationsWeight == Number(drone.weight))) throw new BadRequestException(`Drone is already Full of Medications`);
 
         // drone medications coming more than drone weight limit
-        const weightSum: any = medications.reduce((prev: Medication, current: Medication): any => (prev?.weight || 0) + current.weight);
-        const totalWeight: number = Number(weightSum) + Number(drone.medicationsWeight);
+        drone.medicationsWeight = Number(drone.medicationsWeight)
+        const weightSum: number = medications.reduce((prev: number, current: Medication): any => { return prev + current.weight }, 0);
+        const totalWeight: number = weightSum + drone.medicationsWeight;
 
         if (totalWeight > Number(drone.weight)) throw new BadRequestException(`Can't load those Medications to this Drone, Drone weight limit is ${drone.weight}`);
 
@@ -54,6 +55,7 @@ class MedicationService {
 
         return loadedMedications;
     }
+
     async getLoadedMedications(droneId: number) {
 
         const drone = await DroneEntity.findOne({ where: { id: droneId } })
