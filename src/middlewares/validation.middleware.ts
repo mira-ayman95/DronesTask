@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as Joi from "joi";
+import { ValidationErrorException } from "../utils/exceptions/validation-error.exception";
 interface ValidatorArgs {
     body?: Joi.ObjectSchema<any> | Joi.ArraySchema;
     params?: Joi.ObjectSchema<any>
@@ -26,10 +27,7 @@ export const validationMiddleware = ({ body, params, query }: ValidatorArgs) => 
 
         if (paramsError || bodyError || queryError) {
             const message = generateErrorMessage(paramsError || bodyError || queryError);
-            return res.status(422).json({
-                errorType,
-                error: message
-            });
+            throw new ValidationErrorException(message, errorType);
         }
 
         return next();

@@ -1,5 +1,6 @@
+require('express-async-errors');
 import { createConnection } from "typeorm";
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import * as path from "path";
 import cors from "cors";
 import { validateEnv } from "./config";
@@ -8,6 +9,7 @@ import { dbConnection } from "./config/connection";
 import DroneRouter from "./routers/drones.router";
 import fileUpload from "express-fileupload"
 import * as fs from "fs/promises"
+import { GlobalError } from "./interfaces/exceptions.interface";
 
 
 createConnection(dbConnection);
@@ -29,6 +31,17 @@ app.post('/upload', fileUpload(), async function (req: any, res) {
 });
 
 app.use('/drone', DroneRouter);
+
+app.use((err: GlobalError, req: Request, res: Response, next: NextFunction) => {
+    if (err.status) {
+        return res.status(err.status).send({
+            error: err.message,
+            ...err.errorType ? { errorType: err.errorType } : {}
+        });
+    }
+    console.log("Internal server error", err);
+    return res.status(500).send({ error: "Something went wrong" });
+});
 
 app.listen(process.env.PORT || 3000, () => {
     console.info(`=================================`);
