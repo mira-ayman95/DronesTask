@@ -18,7 +18,7 @@ class MedicationService {
             .where(`drones.id = ${droneId}`)
             .getRawOne();
 
-        //drone found
+        //drone not found
         if (!drone) throw new NotFoundException(`Drone ID not found`);
 
         //drone cant load because of battery below 25  
@@ -27,11 +27,11 @@ class MedicationService {
         //drone already loaded or fully loaded by status or weights
         if (drone.state === DroneStateEnum.LOADED || (drone.medicationsWeight == Number(drone.weight))) throw new BadRequestException(`Drone reached Max weight limit`);
 
-        // drone medications coming more than drone weight limit
         drone.medicationsWeight = Number(drone.medicationsWeight)
         const weightSum: number = medications.reduce((prev: number, current: Medication): any => { return prev + current.weight }, 0);
         const totalWeight: number = weightSum + drone.medicationsWeight;
 
+        // drone medications coming more than drone weight limit
         if (totalWeight > Number(drone.weight)) throw new BadRequestException(`Can't load those Medications to this Drone, Drone weight limit is ${drone.weight}`);
 
 

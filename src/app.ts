@@ -39,7 +39,7 @@ app.post('/upload', fileUpload({ abortOnLimit: true, limits: { fileSize: 50 * 10
     return res.status(201).send({ imageUrl, imagePath: file.name });
 });
 
-app.use('/drone', DroneRouter);
+app.use(["/drone", "/drones"], DroneRouter);
 
 app.use((err: GlobalError, req: Request, res: Response, next: NextFunction) => {
     if (err.status) {

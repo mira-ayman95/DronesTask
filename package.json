@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon",
+    "build": "tsc",
+    "prod": "npm run build && node dist/app.js",
     "db-dev": "docker compose --env-file .env.development up -d",
+    "docker:up": "docker compose --env-file .env.production up -d",
     "test": "jest --forceExit --detectOpenHandles"
   },
   "dependencies": {
