@@ -12,9 +12,9 @@ import * as fs from "fs/promises"
 import { GlobalError } from "./interfaces/exceptions.interface";
 import helmet from "helmet";
 import { BadRequestException } from "./utils/exceptions/bad-request.exception";
-
-
 createConnection(dbConnection);
+import "./controllers/cron.controller";
+
 
 const app = express();
 
