@@ -1,13 +1,6 @@
-version: '3.7'
+version: "3.7"
 
 services:
-  server:
-    build: .
-    ports:
-      - 3000:3000
-    environment:
-      - NODE_ENV=production
-
   db:
     image: postgres:14.5
     ports:
@@ -16,9 +9,24 @@ services:
       - 5432
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U postgres' ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
     volumes:
       - db-data-vol:/var/lib/postgresql/data
-      - ./src/config:/docker-entrypoint-initdb.d
+      - ./src/config/sql-seeders:/docker-entrypoint-initdb.d
+
+  server:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=production
 
 volumes:
   db-data-vol:
