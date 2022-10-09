@@ -18,6 +18,8 @@ run the following command to get the server and the database up
 ```
 npm run docker:up
 ```
+open this URL to check if the server works correctly http://localhost:3000
+it should gives you {"node":16,"message":"APP Works"}
 ## Run tests
  If you want to run the tests please run the following commands 
  ```
@@ -33,4 +35,5 @@ npm run docker:up
 - also the rest of states didn't implemented in my APIs (DELIVERING, DELIVERED, RETURNING)
 
 ## Notes: 
+This is postman APIs can help you if you need as well.
 https://www.postman.com/collections/6ab2624bf271d2a644b3

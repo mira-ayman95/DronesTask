@@ -24,7 +24,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public/medication-images')));
 
-
+app.get('/', async function (req: any, res) {
+    return res.status(200).send({ node: 16, message: "APP Works" });
+});
 app.post('/upload', fileUpload({ abortOnLimit: true, limits: { fileSize: 50 * 1024 * 1024 } }), async function (req: any, res) {
     const file = req.files.file;
     const fileType = req.files.file.mimetype;
